@@ -2,7 +2,7 @@ const html = `
 <!doctype html>
 <html>
 <head>
-    <title>Starter Kit API</title>
+    <title>API Reference</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="https://orpc.unnoq.com/icon.svg" />

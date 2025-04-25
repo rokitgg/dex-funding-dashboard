@@ -16,7 +16,7 @@ export const getRateByCoin = oc
   })
   .input(z.object({
     // market_id of the coin
-    marketId: z.string(),
+    marketId: z.number(),
   }))
   .output(LighterResponse)
   .errors({
