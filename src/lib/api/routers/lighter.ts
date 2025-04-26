@@ -9,8 +9,7 @@ const getStartTimestamp = () => {
     return now.getTime();
 }
 
-export const router = {
-    getRateByCoin: pub.rates.lighter.getRateByCoin.handler(async ({ input, errors }) => {
+const getRateByCoin = pub.rates.lighter.getRateByCoin.handler(async ({ input, errors }) => {
         const url = `${BASE_API_URL}/fundings?market_id=${input.marketId}&resolution=${LIGHTER_RESOLUTION_TIMEFRAME}&start_timestamp=${getStartTimestamp()}&end_timestamp=${new Date().getTime()}&count_back=0`;
         const response = await fetch(url, {
             headers: {
@@ -33,5 +32,8 @@ export const router = {
 
         return parsedResponse.data;
     })
+
+export const router = {
+    getRateByCoin,
 }
 

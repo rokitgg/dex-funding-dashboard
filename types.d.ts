@@ -12,3 +12,15 @@ type User = {
     createdAt?: Date;
     updatedAt?: Date;
 };
+
+type FundingRate = {
+    coin: string;
+    hyperliquid: string | null;
+    binance: string | null;
+    bybit: string | null;
+    lighter: string | null;
+}
+  
+type FundingRatesResponse = {
+    rates: FundingRate[];
+}

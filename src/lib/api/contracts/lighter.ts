@@ -10,7 +10,7 @@ export const getRateByCoin = oc
   .route({
     summary: "Funding Rate by Coin",
     method: "GET",
-    description: "Get Lighter's funding rate for a certain coin",
+    description: "Get Lighter's funding rate by Market ID",
     deprecated: false,
     tags: ["Lighter"],
   })

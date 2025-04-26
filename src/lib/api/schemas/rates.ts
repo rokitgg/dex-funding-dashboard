@@ -1,14 +1,13 @@
 import { z } from "zod";
 
-
 export const FundingRates = z.object({
-    coin: z.string(),
-    // Funding rate number, can be positive or negative
-    hyperliquid: z.string(),
-    lighter: z.string(),
-    // pyth: z.number(),
+  coin: z.string(),
+  hyperliquid: z.string().nullable(),
+  binance: z.string().nullable(),
+  bybit: z.string().nullable(),
+  lighter: z.string().nullable(),
 });
 
 export const FundingRatesResponse = z.object({
-    rates: z.array(FundingRates),
+  rates: z.array(FundingRates),
 });

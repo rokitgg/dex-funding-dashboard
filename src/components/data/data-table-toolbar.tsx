@@ -21,20 +21,15 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
     <div className="flex w-full items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         <Input
-          placeholder={"Filter"}
-          value={(table.getColumn("userName")?.getFilterValue() as string) ?? ""}
-          onChange={(event) => table.getColumn("userName")?.setFilterValue(event.target.value)}
+          placeholder={"Filter by coin..."}
+          value={(table.getColumn("coin")?.getFilterValue() as string) ?? ""}
+          onChange={(event) => table.getColumn("coin")?.setFilterValue(event.target.value)}
           className="h-8 w-[150px] lg:w-[250px]"
         />
 
-        {table.getColumn("status") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("status")}
-            title={"Status"}
-            options={usersStatus}
-          />
-        )}
 
+
+   
         {isFiltered && (
           <Button
             variant="outline"

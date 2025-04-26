@@ -1,21 +1,26 @@
 import { users } from "@/lib/users";
 import { DataTable } from "./data/data-table";
 import { columns } from "./data/columns";
+import { api } from "@/lib/api/clients/server";
+import { Alert, AlertTitle, AlertDescription } from "./ui/alert";
+import { CircleAlert, Terminal } from "lucide-react";
 
 
 
-async function getData(): Promise<User[]> {
-    // Fetch data from your API here.
-    await new Promise((resolve) => setTimeout(resolve, 600))
-    return users
-}
 
 export async function FundingRates() {
-  const data = await getData()
+  const data = await api.rates.getAggregatedFundingRates()
 
   return (
-    <div className="container mx-auto py-32 px-16 flex-grow">
-        <DataTable data={data} columns={columns} />
+    <div className="container mx-auto pt-16 pb-16 px-16 flex-grow">
+        <DataTable data={data.rates} columns={columns} />
+        <Alert className="mt-4">
+          <CircleAlert className="h-4 w-4" />
+          <AlertTitle>Important Note</AlertTitle>
+          <AlertDescription>
+            All funding rates are annualized. The data for some coins might not be available due to API restrictions.
+          </AlertDescription>
+        </Alert>
     </div>
   )
 }
