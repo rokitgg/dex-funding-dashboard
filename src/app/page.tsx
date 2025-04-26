@@ -8,7 +8,7 @@ import { LoadingSkeleton } from "@/components/loading"
 
 
 
-export default async function DemoPage() {
+export default async function Home() {
   // This is where you would fetch external data:
   // const exampleExternalData = await fetchExternalDataFunction();
   // In our example we use local data
