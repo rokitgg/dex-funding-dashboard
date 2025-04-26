@@ -4,8 +4,8 @@ import { columns } from "./data/columns";
 import { Skeleton } from "./ui/skeleton";
 
 
-const ROWS = 1
-const COLUMNS = 6
+const ROWS = 10
+const COLUMNS = 5
 
 export function LoadingSkeleton() {
   return (
