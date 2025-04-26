@@ -61,7 +61,7 @@ export const getAggregatedFundingRates = pub.rates.getAggregatedFundingRates.han
                   "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36",
                 },
               },
-              1, // retries: 0 means only one attempt
+              0, // retries: 0 means only one attempt
               100 // delay in ms between retries (not used if retries=0)
             );
             if (!lighterRes.ok) {
