@@ -1,5 +1,5 @@
 import { pub } from "../orpc";
-import { BASE_API_URL, LIGHTER_RESOLUTION_TIMEFRAME, USER_AGENT, LIGHTER_MARKET_IDS  } from "../contstants/lighter";
+import { BASE_API_URL, LIGHTER_RESOLUTION_TIMEFRAME, USER_AGENT, LIGHTER_MARKET_IDS  } from "../constants/lighter";
 import { LighterResponse } from "../schemas/lighter";
 import { z } from "zod";
 // Timestamp of 1 hour ago

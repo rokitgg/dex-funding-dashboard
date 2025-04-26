@@ -23,7 +23,7 @@ export function DataTableViewOptions<TData>({ table }: DataTableViewOptionsProps
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="sm" className="ml-auto hidden h-8 lg:flex">
           <MixerHorizontalIcon className="mr-2 h-4 w-4" />
-          {"See Columns"}
+          {"Edit Columns"}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
@@ -31,7 +31,7 @@ export function DataTableViewOptions<TData>({ table }: DataTableViewOptionsProps
         <DropdownMenuSeparator />
         {table
           .getAllColumns()
-          .filter((column) => typeof column.accessorFn !== "undefined" && column.getCanHide())
+          .filter((column) => typeof column.accessorFn !== "undefined" && column.getCanHide() && column.id !== "coin")
           .map((column) => {
             return (
               <DropdownMenuCheckboxItem

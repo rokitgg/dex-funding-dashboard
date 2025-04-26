@@ -4,6 +4,20 @@ export const LIGHTER_MARKET_IDS = {
     "ETH": 0,
     "BTC": 1,
     "SOL": 2,
+    "TRUMP": 15,
+    "SUI": 16,
+    "FARTCOIN": 21,
+    "POPCAT": 23,
+    "HYPE": 24,
+    "BNB": 25,
+    "AAVE": 27,
+    "MKR": 28,
+    "APT": 31,
+    "SEI": 32,
+    "KAITO": 33,
+    "IP": 34,
+    "LTC": 35,
+    
 }
 
 

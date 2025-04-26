@@ -1,15 +1,28 @@
 import { router as lighter } from "@/lib/api/routers/lighter";
 import { router as hyperliquid } from "@/lib/api/routers/hyperliquid";
 import { pub } from "../orpc";
-import { HYPERLIQUID_UI_API_URL } from "@/lib/api/contstants/hyperliquid";
+import { HYPERLIQUID_UI_API_URL } from "@/lib/api/constants/hyperliquid";
 import { HyperliquidFundingRatesSchema } from "@/lib/api/schemas/hyperliquid";
-import { LIGHTER_MARKET_IDS } from "@/lib/api/contstants/lighter";
+import { LIGHTER_MARKET_IDS } from "@/lib/api/constants/lighter";
 import { LighterResponse } from "../schemas/lighter";
 
 const getStartTimestamp = () => {
     const now = new Date();
     now.setHours(now.getHours() - 1);
     return now.getTime();
+}
+
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function fetchWithRetry(url: string, options: RequestInit, retries = 0, delayMs = 100): Promise<Response> {
+  for (let i = 0; i <= retries; i++) {
+    const res = await fetch(url, options);
+    if (res.status !== 429) return res;
+    if (i < retries) await delay(delayMs);
+  }
+  throw new Error("Rate limited after retries");
 }
 
 export const getAggregatedFundingRates = pub.rates.getAggregatedFundingRates.handler(
@@ -31,42 +44,43 @@ export const getAggregatedFundingRates = pub.rates.getAggregatedFundingRates.han
         const coinMarketMap = Object.fromEntries(filteredData);
   
         // 3. For each coin, fetch Lighter funding rate if available
-        const lighterResults = await Promise.all(
-          coins.map(async (coin: any) => {
-            const marketId = LIGHTER_MARKET_IDS[coin as keyof typeof LIGHTER_MARKET_IDS];
-            if (marketId === undefined) {
-            //   console.log(`[Lighter] No marketId for coin: ${coin}`);
-              return { coin, lighter: null };
+        const lighterResults: { coin: string, lighter: number | null }[] = [];
+        for (const coin of coins) {
+          const marketId = LIGHTER_MARKET_IDS[coin as keyof typeof LIGHTER_MARKET_IDS];
+          if (marketId === undefined) {
+            lighterResults.push({ coin, lighter: null });
+            continue;
+          }
+          try {
+            const url = `https://mainnet.zklighter.elliot.ai/api/v1/fundings?market_id=${marketId}&resolution=1h&start_timestamp=${getStartTimestamp()}&end_timestamp=${new Date().getTime()}&count_back=0`;
+            const lighterRes = await fetchWithRetry(
+              url,
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36",
+                },
+              },
+              1, // retries: 0 means only one attempt
+              100 // delay in ms between retries (not used if retries=0)
+            );
+            if (!lighterRes.ok) {
+              lighterResults.push({ coin, lighter: null });
+              continue;
             }
-            try {
-              const lighterRes = await fetch(
-                `https://mainnet.zklighter.elliot.ai/api/v1/fundings?market_id=${marketId}&resolution=1h&start_timestamp=${getStartTimestamp()}&end_timestamp=${new Date().getTime()}&count_back=0`,
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36",
-                    },
-                }
-              );
-              if (!lighterRes.ok) {
-                // console.log(`[Lighter] Bad response for coin: ${coin}, status: ${lighterRes.status}`);
-                return { coin, lighter: null };
-              }
-              const lighterData = await lighterRes.json();
-            //   console.log(`[Lighter] Raw data for coin ${coin}:`, lighterData);
-              const parsedLighter = LighterResponse.safeParse(lighterData);
-              if (!parsedLighter.success || !parsedLighter.data.fundings.length) {
-                // console.log(`[Lighter] Parse failed or no fundings for coin: ${coin}`, parsedLighter.error);
-                return { coin, lighter: null };
-              }
-              // Use the latest funding rate
-              return { coin, lighter: parsedLighter.data.fundings[0].rate };
-            } catch (e) {
-            //   console.log(`[Lighter] Exception for coin: ${coin}`, e);
-              return { coin, lighter: null };
+            const lighterData = await lighterRes.json();
+            const parsedLighter = LighterResponse.safeParse(lighterData);
+            if (!parsedLighter.success || !parsedLighter.data.fundings.length) {
+              lighterResults.push({ coin, lighter: null });
+              continue;
             }
-          })
-        );
+            lighterResults.push({ coin, lighter: Number(parsedLighter.data.fundings[0].rate) });
+          } catch (e) {
+            lighterResults.push({ coin, lighter: null });
+          }
+          // Add a delay between each request to avoid rate limiting
+          await delay(100); // 100ms between requests
+        }
         const lighterMap = Object.fromEntries(
           lighterResults.map(({ coin, lighter }) => [coin, lighter])
         );

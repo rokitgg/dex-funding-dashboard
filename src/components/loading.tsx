@@ -9,13 +9,12 @@ const COLUMNS = 5
 
 export function LoadingSkeleton() {
   return (
-    <div className="container mx-auto py-32 px-16 flex-grow">
+    <div className="container mx-auto py-12 px-16 flex-grow">
         <div className="space-y-4">
         {/* Toolbar skeleton */}
         <div className="flex items-center justify-between">
             <div className="flex flex-1 items-center space-x-2">
             <Skeleton className="h-9 w-[250px]" /> {/* Search input */}
-            <Skeleton className="h-9 w-[100px]" /> {/* Status filter button */}
             </div>
             <Skeleton className="h-9 w-[120px]" /> {/* View columns button */}
         </div>

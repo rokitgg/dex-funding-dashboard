@@ -1,4 +1,4 @@
-import { HYPERLIQUID_UI_API_URL } from "@/lib/api/contstants/hyperliquid";
+import { HYPERLIQUID_UI_API_URL } from "@/lib/api/constants/hyperliquid";
 import { pub } from "@/lib/api/orpc";
 import { HyperliquidFundingRatesSchema } from "@/lib/api/schemas/hyperliquid";
 
