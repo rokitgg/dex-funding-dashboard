@@ -4,11 +4,13 @@ import { columns } from "./data/columns";
 import { api } from "@/lib/api/clients/server";
 import { Alert, AlertTitle, AlertDescription } from "./ui/alert";
 import { CircleAlert, Terminal } from "lucide-react";
+import { unstable_noStore as noStore } from 'next/cache';
 
 
 
 
 export async function FundingRates() {
+  noStore(); // This component should run dynamically
   const data = await api.rates.getAggregatedFundingRates()
 
   return (
