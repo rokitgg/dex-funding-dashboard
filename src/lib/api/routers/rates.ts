@@ -74,7 +74,12 @@ export const getAggregatedFundingRates = pub.rates.getAggregatedFundingRates.han
               lighterResults.push({ coin, lighter: null });
               continue;
             }
-            lighterResults.push({ coin, lighter: Number(parsedLighter.data.fundings[0].rate) });
+            const funding = parsedLighter.data.fundings[0];
+            let lighterRate = Number(funding.rate);
+            if (funding.direction === "short") {
+              lighterRate = -lighterRate;
+            }
+            lighterResults.push({ coin, lighter: lighterRate });
           } catch (e) {
             lighterResults.push({ coin, lighter: null });
           }
