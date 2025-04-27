@@ -10,7 +10,8 @@ const getStartTimestamp = () => {
 }
 
 const getRateByCoin = pub.rates.lighter.getRateByCoin.handler(async ({ input, errors }) => {
-        const url = `${BASE_API_URL}/fundings?market_id=${input.marketId}&resolution=${LIGHTER_RESOLUTION_TIMEFRAME}&start_timestamp=${getStartTimestamp()}&end_timestamp=${new Date().getTime()}&count_back=0`;
+        const marketId = LIGHTER_MARKET_IDS[input.ticker as keyof typeof LIGHTER_MARKET_IDS];
+        const url = `${BASE_API_URL}/fundings?market_id=${marketId}&resolution=${LIGHTER_RESOLUTION_TIMEFRAME}&start_timestamp=${getStartTimestamp()}&end_timestamp=${new Date().getTime()}&count_back=0`;
         const response = await fetch(url, {
             headers: {
                 "Content-Type": "application/json",

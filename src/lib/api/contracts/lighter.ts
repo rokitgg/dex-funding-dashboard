@@ -8,15 +8,15 @@ import { LighterResponse } from "../schemas/lighter";
 
 export const getRateByCoin = oc
   .route({
-    summary: "Funding Rate by Coin",
+    summary: "Funding Rate by Ticker",
     method: "GET",
-    description: "Get Lighter's funding rate by Market ID",
+    description: "Get Lighter's funding rate by ticker",
     deprecated: false,
     tags: ["Lighter"],
   })
   .input(z.object({
-    // market_id of the coin
-    marketId: z.number(),
+    // ticker of the coin
+    ticker: z.string().describe("Ticker of the coin")
   }))
   .output(LighterResponse)
   .errors({
