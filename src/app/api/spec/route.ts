@@ -12,7 +12,7 @@ export async function GET(request: Request) {
       title: "Funding Rates Dashboard",
       version: "1.0.0",
     },
-    servers: [{ url: "/api" /** Should use absolute URLs in production */ }],
+    servers: [{ url: "https://funding-rates-dashboard.vercel.app/api" /** Should use absolute URLs in production */ }],
   });
 
   return new Response(JSON.stringify(spec), {

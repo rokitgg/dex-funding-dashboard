@@ -26,8 +26,8 @@ export const router = pub.router({
         ],
       },
       links: {
-        documentation: "http://localhost:3000/api/docs",
-        specification: "http://localhost:3000/api/spec",
+        documentation: "https://funding-rates-dashboard.vercel.app/api/docs",
+        specification: "https://funding-rates-dashboard.vercel.app/api/spec",
       },
     };
   }),
