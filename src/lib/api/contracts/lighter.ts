@@ -6,7 +6,7 @@ import { LighterResponse } from "../schemas/lighter";
 
 
 
-export const getRateByCoin = oc
+export const getFundingRateByTicker = oc
   .route({
     summary: "Funding Rate by Ticker",
     method: "GET",
@@ -29,5 +29,5 @@ export const getRateByCoin = oc
   });
 
 export const contract = {
-  getRateByCoin,
+  getFundingRateByTicker,
 }
