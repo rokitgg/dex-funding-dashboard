@@ -17,6 +17,12 @@ export const LIGHTER_MARKET_IDS = {
     "KAITO": 33,
     "IP": 34,
     "LTC": 35,
+    "ENA": 29,
+    "UNI": 30,
+    "XRP": 7,
+    "JUP": 26,
+    "DOGE": 3,
+    "BERA": 20,
     
 }
 
