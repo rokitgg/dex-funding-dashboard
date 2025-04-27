@@ -45,7 +45,9 @@ export const getFundingRateByTicker = pub.rates.hyperliquid.getFundingRateByTick
       };
     } catch (err: any) {
       if (err?.code === "NOT_FOUND") throw err;
-      throw errors.INTERNAL_SERVER_ERROR();
+      throw errors.INTERNAL_SERVER_ERROR({
+        message: err.message,
+      });
     }
   });
 
