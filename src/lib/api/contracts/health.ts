@@ -16,6 +16,7 @@ export const health = oc
     method: "GET",
     description: "Check if the API is operational and in good health.",
     deprecated: false,
+    tags: ["Health"],
   })
   .output(HealthCheckResponse satisfies z.ZodType<HealthCheck>);
 

@@ -9,6 +9,7 @@ export const getAggregatedFundingRates = oc
     method: "GET",
     description: "Get aggregated, annualized funding rates for all coins.",
     deprecated: false,
+    tags: ["Dashboard"],
   })
   .output(FundingRatesResponse)
   .errors({
