@@ -9,19 +9,10 @@ const openAPIGenerator = new OpenAPIGenerator({
 export async function GET(request: Request) {
   const spec = await openAPIGenerator.generate(contract, {
     info: {
-      title: "ORPC Playground",
+      title: "Funding Rates Dashboard",
       version: "1.0.0",
     },
     servers: [{ url: "/api" /** Should use absolute URLs in production */ }],
-    security: [{ bearerAuth: [] }],
-    components: {
-      securitySchemes: {
-        bearerAuth: {
-          type: "http",
-          scheme: "bearer",
-        },
-      },
-    },
   });
 
   return new Response(JSON.stringify(spec), {
